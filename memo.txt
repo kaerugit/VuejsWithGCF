@@ -1,0 +1,93 @@
+◆環境構築
+
+https://github.com/nullivex/nodist/releases インストール(windows10)
+
+確認
+nodist -v 
+
+一覧表示
+nodist dist　
+
+インストール
+nodist + 8.11.4
+
+node バージョン変更
+nodist 8.11.4
+
+◆firebaseローカル環境構築
+
+https://qiita.com/rubytomato@github/items/11c7f3fcaf60f5ce3365
+npm install firebase-tools --global
+
+firebase login
+
+firebase init
+※ほとんどデフォルト(エンターキーのみ)
+
+? Are you ready to proceed? Yes
+
+>( ) Database: Deploy Firebase Realtime Database Rules         ※jsonDBらしい
+ ( ) Firestore: Deploy rules and create indexes for Firestore
+ (*) Functions: Configure and deploy Cloud Functions
+ (*) Hosting: Configure and deploy Firebase Hosting sites
+ ( ) Storage: Deploy Cloud Storage security rules
+
+//ここでプロジェクトを選択
+ ? Select a default Firebase project for this directory:
+  [don't setup a default project]
+> [create a new project]
+※databaseはfirebase realtime databaseを使用
+
+終了後
+プロジェクトとの関連付け(★★firebase init で関連付け出来なかったら★★)
+firebase use --add
+
+フォルダ構成
+└functions node.js(サーバ側)
+└public 　　ホスティング（静的htmlファイル）
+
+
+◆その他
+
+一覧
+firebase list
+
+利用中のプロジェクト
+firebase use
+
+デプロイ
+firebase deploy
+
+(functionsのみ)
+firebase deploy --only functions
+
+ローカルでテスト(npm install --save firebase-functions@latest が必要)
+firebase serve
+
+◆パッケージインストール
+cd functions
+npm install 〇〇 --save
+※　--save　が必要（firebase deploy　時パッケージエラーとなる）
+
+◆CORSドメイン対応
+
+□
+//CORSを許可する
+//npm install cors --save 
+//importする際に　{origin: true}　をつける
+//もう少し詳細に指定したい場合はこちらをご参照ください https://github.com/expressjs/cors#configuration-options
+const cors = require('cors')({origin: true});
+
+exports.todofuken = functions.https.onRequest((request, response) => {
+  //CORSを許可する
+  cors(request, response, () => {
+    　ここに記述
+  });
+});
+
+□
+CORSが必要ないのであれば、firebase.json　に rewritesを追加　★こっちのほうがテスト、ローカル置き換えなくてよいのでお勧め
+  "hosting": {
+    "rewrites": [
+      {"source": "/api/todofuken", "function": "todofuken"}
+    ]    
