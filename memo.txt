@@ -1,4 +1,4 @@
-◆環境構築
+﻿◆環境構築
 
 https://github.com/nullivex/nodist/releases インストール(windows10)
 
@@ -8,11 +8,11 @@ nodist -v
 一覧表示
 nodist dist　
 
-インストール
-nodist + 8.11.4
 
 node バージョン変更
-nodist 8.11.4
+nodist 8.13.0
+※追従するnpmにする
+nodist npm 3.x
 
 ◆firebaseローカル環境構築
 
